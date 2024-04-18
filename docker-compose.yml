@@ -1,8 +1,8 @@
 version: "3.8"
 services:
-  horsing-b-pg:
+  horsing-b-postgres:
     image: postgres:latest
-    container_name: horsing-b-pg
+    container_name: horsing-b-postgres
     restart: always
     env_file: .env
     environment:
