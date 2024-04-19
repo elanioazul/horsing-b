@@ -19,7 +19,7 @@ services:
       args:
         - PORT=${NEST_PORT}
     ports:
-      - 5001:${NEST_PORT}
+      - 3002:${NEST_PORT}
   horsing-b-dev:
     container_name: horsing-b-api-dev
     restart: unless-stopped
@@ -37,7 +37,7 @@ services:
         - PORT=${NEST_PORT}
     #entrypoint: ["npm", "run", "start:dev"]
     ports:
-      - 5002:${NEST_PORT}
+      - 3002:${NEST_PORT}
       - 9229:9229 #debuggin port
     volumes:
       - .:/horsing-b-app
