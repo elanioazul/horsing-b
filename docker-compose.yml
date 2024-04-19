@@ -11,3 +11,42 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - 5433:${DATABASE_PORT}
+  horsing-b-production:
+    container_name: horsing-b-api-production
+    build:
+      target: production
+      context: .
+      args:
+        - PORT=${NEST_PORT}
+    ports:
+      - 5001:${NEST_PORT}
+  horsing-b-dev:
+    container_name: horsing-b-api-dev
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_HOST: horsing-b-postgres
+      DATABASE_PORT: ${DATABASE_PORT}
+    build:
+      target: dev
+      context: .
+      args:
+        - PORT=${NEST_PORT}
+    #entrypoint: ["npm", "run", "start:dev"]
+    ports:
+      - 5002:${NEST_PORT}
+      - 9229:9229 #debuggin port
+    volumes:
+      - .:/horsing-b-app
+      - node_modules:/horsing-b-app/node_modules/
+    command: npm run start:debug # override entry command
+    depends_on:
+      - horsing-b-postgres
+    links:
+      - horsing-b-postgres
+volumes:
+  node_modules: null
+  docker-nest-postgres: null
