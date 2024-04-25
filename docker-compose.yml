@@ -1,5 +1,12 @@
 version: "3.8"
 services:
+  horsing-b-redis:
+    image: redis
+    container_name: horsing-b-redis
+    restart: always
+    env_file: .env
+    ports:
+      - "6480:${REDIS_PORT}"
   horsing-b-postgres:
     image: postgres:latest
     container_name: horsing-b-postgres
@@ -45,8 +52,10 @@ services:
     command: npm run start:debug # override entry command
     depends_on:
       - horsing-b-postgres
+      - horsing-b-redis
     links:
       - horsing-b-postgres
+      - horsing-b-redis
 # volumes:
 #   node_modules: null
 #   docker-nest-postgres: null
